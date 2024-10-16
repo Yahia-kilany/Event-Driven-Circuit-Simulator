@@ -1,0 +1,36 @@
+module test_mux_4to1();
+    reg i0, i1, i2, i3;
+    reg s1, s0;
+    wire out;
+
+    
+    mux_4to1 uut(out, i0, i1, i2, i3, s1, s0);
+
+    initial begin
+        // Test cases with different select lines and inputs
+        i0 = 1; i1 = 0; i2 = 1; i3 = 0;
+
+        // Test for s1 = 0, s0 = 0 (should select i0)
+        s1 = 0; s0 = 0;
+        #100;
+
+        // Test for s1 = 0, s0 = 1 (should select i1)
+        s1 = 0; s0 = 1;
+        #100;
+
+        // Test for s1 = 1, s0 = 0 (should select i2)
+        s1 = 1; s0 = 0;
+        #100;
+
+        // Test for s1 = 1, s0 = 1 (should select i3)
+        s1 = 1; s0 = 1;
+        #100;
+
+        $finish;
+    end
+
+    initial begin
+        $monitor("At time %t: s1 = %b, s0 = %b -> out = %b (inputs: i0 = %b, i1 = %b, i2 = %b, i3 = %b)",
+                 $time, s1, s0, out, i0, i1, i2, i3);
+    end
+endmodule
