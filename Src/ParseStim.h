@@ -8,7 +8,8 @@
 #include <regex>
 #include <iostream>
 using namespace std;
-
+#ifndef PARSESTIM_H
+#define PARSESTIM_H
 std::vector<std::map<std::string, int>> parseStimFile(const std::string& filename) {
     std::vector<std::map<std::string, int>> stimuli;
     std::ifstream file(filename);
@@ -43,3 +44,4 @@ std::vector<std::map<std::string, int>> parseStimFile(const std::string& filenam
     file.close();
     return stimuli;
 }
+#endif //PARSESTIM_H

@@ -7,6 +7,8 @@
 #include <algorithm>
 #include "circuit.h"
 #include "Gates.h"
+#ifndef PARSEVERILOG_H
+#define PARSEVERILOG_H
 using namespace std;
 std::string removeCharacters (const std::string& input , const std::string& charsToRemove) {
     std::string result = input; // Copy the input string to result
@@ -26,3 +28,4 @@ public:
     ~ParseVerilog () = default; // Default destructor
 };
 
+#endif //PARSEVERILOG_H

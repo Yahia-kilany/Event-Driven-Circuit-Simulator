@@ -9,7 +9,7 @@ Circuit ParseVerilog::parse (const std::string& filename) {
         return circuit; // Return empty circuit
     }
 
-    std::unordered_map<string , Wire*> wires; // Moved outside while loop
+    std::unordered_map<string , Wire*> wires;
     std::string line;
     while (std::getline (file , line)) {
         std::istringstream iss (line);
@@ -40,7 +40,7 @@ Circuit ParseVerilog::parse (const std::string& filename) {
                         token = removeCharacters (token , charsToRemove);
                         if (wires.find (token) != wires.end ()) {
                             ports.push_back (wires[token]);
-                            std::cout << "Input: " << token << std::endl; // Indicate input for gate
+                            std::cout << "Input: " << token << std::endl; // Indicate ports for gate
                         }
                         else {
                             std::cerr << "Error: Wire " << token << " not found." << std::endl;

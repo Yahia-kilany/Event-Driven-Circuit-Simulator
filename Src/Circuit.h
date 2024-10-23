@@ -1,8 +1,10 @@
+
 #include <iostream>
 #include <vector>
 #include <string>
-#include <Gates.h>
-
+#include "Gates.h"
+#ifndef CIRCUIT_H
+#define CIRCUIT_H
 // Define a Wire class to store the value of each wire
 
 
@@ -43,3 +45,4 @@ public:
     }
 };
 
+#endif //CIRCUIT_H

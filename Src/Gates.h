@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
-
+#ifndef GATES_H
+#define GATES_H
 // Define a Wire class to store the value of each wire
 class Wire {
 public:
@@ -22,3 +23,4 @@ public:
     bool evaluate();
 
     };
+#endif //GATES_H
