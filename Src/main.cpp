@@ -5,17 +5,12 @@
 #include "ParseStim.h"
 
 int main () {
+    cout<<2;
     ParseVerilog parser;
-    Circuit circuit = parser.parse ("./Tests/parity_checker.v");
+    Circuit circuit = parser.parse ("parity_checker.v");
     circuit.simulate ();
     circuit.printValues ();
 
-    std::vector<std::map<std::string , int>> stimuli = parseStimFile ("./Tests/stimulus.txt");
-    for (const auto& stimulus : stimuli) {
-        for (const auto& [name , value] : stimulus) {
-            std::cout << name << ": " << value << std::endl;
-        }
-    }
 
     return 0;
 }

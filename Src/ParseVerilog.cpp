@@ -11,7 +11,7 @@ std::string removeCharacters (const std::string& input , const std::string& char
 }
 Circuit ParseVerilog::parse (const std::string& filename) {
     const std::string charsToRemove = "(),; ";
-
+    cout<<1;
     Circuit circuit;
     std::ifstream file (filename);
     if (!file.is_open ()) {
