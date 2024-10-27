@@ -13,6 +13,8 @@ using namespace std;
 
 
 class ParseVerilog {
+    private:
+    std::string filename;
 public:
     ParseVerilog () = default;
     Circuit parse (const std::string& filename); // Change parameter type to const reference

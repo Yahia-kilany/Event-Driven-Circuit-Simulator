@@ -10,7 +10,7 @@ int Gate::getGateType() {
     if (type == "XOR") return 5;
     if (type == "XNOR") return 6;
     return -1; // Invalid type
-}
+}//TODO: turn into an enum
 event Gate::evaluate (event e) {
     bool result = false; // Default value
 

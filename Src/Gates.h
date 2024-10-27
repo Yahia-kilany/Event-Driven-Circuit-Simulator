@@ -16,7 +16,7 @@ protected:
 
 public:
     Gate(std::vector<Wire*> ins, Wire* out,std::string typ, int d=0) : inputs(ins), output(out),type(typ),delay(d) {}
-    event evaluate(event e);
+    Event evaluate(Event e);
 
     };
 #include "Gates.cpp"

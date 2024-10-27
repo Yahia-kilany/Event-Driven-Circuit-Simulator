@@ -6,7 +6,7 @@
 #include <string>
 #include <queue>
 #include <map>
-#include "event.h"
+#include "Event.h"
 #include "Gates.h"
 
 
@@ -14,7 +14,7 @@
 class Circuit {
 private:
     std::map<std::string , Wire*> wires;
-    std::vector<Gate*> gates;
+    std::vector<Gate*> gates;   //recheck the functionality of the vector
 
 public:
     // Create a wire and add it to the circuit
@@ -31,11 +31,11 @@ public:
 
     // Simulate the circuit by evaluating all gates
     void simulate () {
-        std::priority_queue<event , std::vector<event> , CompareEvent> eventQueue;
+        std::priority_queue<Event , std::vector<Event> , CompareEvent> eventQueue;
         std::queue<Gate*> gateQueue;
 
         while (!eventQueue.empty ()) {
-            event e = eventQueue.top (); // Access the highest-priority event
+            Event e = eventQueue.top (); // Access the highest-priority event
             std::cout << e; // Make sure `event` has an overloaded operator<<
             wires[e.getName ()]->value = e.getValue (); // Update the wire value
             for (Gate* g : wires[e.getName ()]-> endGates) {
