@@ -1,4 +1,5 @@
 #include "Gates.h"
+#include "event.h"
 
 int Gate::getGateType() {
     if (type == "AND") return 0;
@@ -10,7 +11,7 @@ int Gate::getGateType() {
     if (type == "XNOR") return 6;
     return -1; // Invalid type
 }
-bool Gate::evaluate () {
+event Gate::evaluate (event e) {
     bool result = false; // Default value
 
     switch (getGateType ()) {
@@ -61,7 +62,6 @@ bool Gate::evaluate () {
     default:
         break;
     }
-
-    output->value = result; // Set output value after evaluation
-    return output->value; // Return the output value
+    event* output = new event(e.getTime()+delay, this->output->name, result);
+    return *output;// Return the output value
 }
