@@ -10,8 +10,7 @@ std::string removeCharacters (const std::string& input , const std::string& char
     return result; // Return the modified string
 }
 Circuit ParseVerilog::parse (const std::string& filename) {
-    const std::string charsToRemove = "(),; ";
-    cout<<1;
+    const std::string charsToRemove = "(),;# ";
     Circuit circuit;
     std::ifstream file (filename);
     if (!file.is_open ()) {
@@ -21,14 +20,24 @@ Circuit ParseVerilog::parse (const std::string& filename) {
 
     std::unordered_map<string , Wire*> wires;
     std::string line;
+        bool moduleFound = false;
+
     while (std::getline (file , line)) {
         std::istringstream iss (line);
         std::string token;
-
+                if (!moduleFound && line.find("module") != std::string::npos) {
+            iss >> token; // Ignore "module"
+            if (iss >> token) {
+                token = removeCharacters(token, charsToRemove);
+                std::cout << "Module Name: " << token << std::endl; // Print module name
+                moduleFound = true;
+            }
+        }
         if (line.find ("input") != std::string::npos || line.find ("output") != std::string::npos || line.find ("wire") != std::string::npos) {
             while (iss >> token) {
-                if (token != "input" && token != "output" && token != "wire" && token != ";" && token != "(" && token != ")") {
                     token = removeCharacters (token , charsToRemove);
+                    
+                if (token != "input" && token != "output" && token != "wire" && token != ";" && token != "(" && token != ")") {
                     std::cout << "Wire: " << token << std::endl; // Indicate wire creation
                     Wire* w = circuit.addWire (token);
                     wires[token] = w; // Store wire in map
@@ -36,12 +45,17 @@ Circuit ParseVerilog::parse (const std::string& filename) {
             }
         }
         else {
-            std::string gate_type , gate_name;
+            std::string gate_type , gate_name, gate_delay;
+            int delay;
             if (line.find ("AND") != std::string::npos || line.find ("OR") != std::string::npos || line.find ("NAND") != std::string::npos
                 || line.find ("NOR") != std::string::npos || line.find ("XOR") != std::string::npos ||
                 line.find ("XNOR") != std::string::npos) {
 
-                iss >> gate_type >> gate_name;
+                iss >> gate_type;
+                iss >> gate_delay;
+                gate_delay = removeCharacters (gate_delay , charsToRemove);
+                delay = std::stoi (gate_delay);
+                iss>> gate_name;
                 iss.ignore (); // Ignore the opening parenthesis
 
                 std::vector<Wire*> ports;
@@ -61,7 +75,10 @@ Circuit ParseVerilog::parse (const std::string& filename) {
                 Wire* output = ports[0];
                 std::vector<Wire*> inputs(ports.begin() + 1, inputs.end());
 
-                Gate* gate = new Gate (inputs , output , gate_type);
+                Gate* gate = new Gate (inputs , output , gate_type, delay);
+                for(auto& input : inputs){
+                    input->addGate( gate);
+                }
                 circuit.addGate(gate);
             }
         }
