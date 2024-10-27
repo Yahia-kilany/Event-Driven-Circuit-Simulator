@@ -22,11 +22,7 @@ public:
     const std::string& getName() const { return name; }
 };
 
-// Overloaded output operator for event
-std::ostream& operator<<(std::ostream& os, const event& e) {
-    os << e.time << " " << e.name << " " << e.value;
-    return os;
-}
+
 
 // Comparison struct for event
 struct CompareEvent {
