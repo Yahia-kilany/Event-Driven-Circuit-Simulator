@@ -1,6 +1,8 @@
 //
 // Created by Mahmoud Aly on 10/23/2024.
 //
+#ifndef PARSESTIM_H
+#define PARSESTIM_H
 #include <vector>
 #include <map>
 #include <string>
@@ -8,8 +10,6 @@
 #include <regex>
 #include <iostream>
 using namespace std;
-#ifndef PARSESTIM_H
-#define PARSESTIM_H
 std::vector<std::map<std::string, int>> parseStimFile(const std::string& filename) {
     std::vector<std::map<std::string, int>> stimuli;
     std::ifstream file(filename);

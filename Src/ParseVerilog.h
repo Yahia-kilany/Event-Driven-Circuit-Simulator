@@ -1,3 +1,5 @@
+#ifndef PARSEVERILOG_H
+#define PARSEVERILOG_H
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -7,8 +9,6 @@
 #include <algorithm>
 #include "circuit.h"
 #include "Gates.h"
-#ifndef PARSEVERILOG_H
-#define PARSEVERILOG_H
 using namespace std;
 
 
