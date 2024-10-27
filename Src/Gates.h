@@ -1,23 +1,11 @@
+#ifndef GATES_H
+#define GATES_H
 #include <vector>
 #include <string>
 #include "event.h"
+#include "wire.h"
 
-#ifndef GATES_H
-#define GATES_H
-
-// Define a Wire class to store the value of each wire
-class Wire {
-public:
-    bool value;
-    std::string type;
-    std::string name;
-    std::vector<Gate*> endGates;
-
-    Wire(std::string n, Gate* g) : name(n), value(false) {}
-    void addGate(Gate* g) {
-        endGates.push_back(g);
-    }
-};
+class Wire;
 class Gate {
 protected:
     std::vector<Wire*> inputs; // A vector of input wires
@@ -31,4 +19,5 @@ public:
     event evaluate(event e);
 
     };
+
 #endif //GATES_H
