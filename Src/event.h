@@ -1,6 +1,7 @@
+#ifndef EVENT_H
+#define EVENT_H
 #include <iostream>
 #include <string>
-
 class event {
 private:
     int time;
@@ -33,10 +34,4 @@ struct CompareEvent {
         return e1.time > e2.time; // For min-heap
     }
 };
-
-int main() {
-    event e1(10, "Sample Event", 100);
-    std::cout << e1 << std::endl; // Output: 10 Sample Event 100
-
-    return 0;
-}
+#endif //EVENT_H
