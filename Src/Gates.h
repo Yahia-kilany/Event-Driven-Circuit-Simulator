@@ -19,5 +19,5 @@ public:
     event evaluate(event e);
 
     };
-
+#include "Gates.cpp"
 #endif //GATES_H

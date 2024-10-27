@@ -18,5 +18,5 @@ public:
     Circuit parse (const std::string& filename); // Change parameter type to const reference
     ~ParseVerilog () = default; // Default destructor
 };
-
+#include "ParseVerilog.cpp"
 #endif //PARSEVERILOG_H
