@@ -2,7 +2,7 @@
 #define GATES_H
 #include <vector>
 #include <string>
-#include "event.h"
+#include "Event.h"
 #include "wire.h"
 
 class Wire;

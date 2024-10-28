@@ -1,5 +1,5 @@
 #include "Gates.h"
-#include "event.h"
+#include "Event.h"
 
 int Gate::getGateType() {
     if (type == "AND") return 0;
@@ -11,7 +11,7 @@ int Gate::getGateType() {
     if (type == "XNOR") return 6;
     return -1; // Invalid type
 }//TODO: turn into an enum
-event Gate::evaluate (event e) {
+Event Gate::evaluate (Event e) {
     bool result = false; // Default value
 
     switch (getGateType ()) {
@@ -62,6 +62,6 @@ event Gate::evaluate (event e) {
     default:
         break;
     }
-    event* output = new event(e.getTime()+delay, this->output->name, result);
+    Event* output = new Event(e.getTime()+delay, this->output->name, result);
     return *output;// Return the output value
 }

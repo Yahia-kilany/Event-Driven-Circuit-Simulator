@@ -1,4 +1,3 @@
-
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
 #include <iostream>
@@ -14,8 +13,8 @@
 class Circuit {
 private:
     std::map<std::string , Wire*> wires;
-    std::vector<Gate*> gates;   //recheck the functionality of the vector
 
+    std::vector<Gate*> gates;   //recheck the functionality of the vector
 public:
     // Create a wire and add it to the circuit
     Wire* addWire (std::string name) {
