@@ -1,22 +1,24 @@
-module test_parity_checker();
-    reg a, b, c, d;
-    wire parity;
-
-    
-    parity_checker uut(parity, a, b, c, d);
-
-    initial begin
-        // Test cases with delay
-        a = 0; b = 0; c = 0; d = 0;
-        #100 a = 1;
-        #100 b = 1;
-        #100 c = 1;
-        #100 d = 1;
-        #100 a = 0;
-        #100 $finish;
-    end
-
-    initial begin
-        $monitor("At time %t: a = %b, b = %b, c = %b, d = %b -> parity = %b", $time, a, b, c, d, parity);
-    end
-endmodule
+#0 a=0;
+#0 b=0;
+#0 c=0;
+#0 d=0;
+#100 a=0;
+#100 b=0;
+#100 c=0;
+#100 d=1;
+#200 a=0;
+#200 b=1;
+#200 c=1;
+#200 d=1;
+#300 a=1;
+#300 b=1;
+#300 c=1;
+#300 d=0;
+#400 a=1;
+#400 b=0;
+#400 c=1;
+#400 d=1;
+#500 a=1;
+#500 b=1;
+#500 c=1;
+#500 d=1;
