@@ -1,3 +1,4 @@
+
 module parity_checker(a, b, c, d, parity);
 input a;
 input b;

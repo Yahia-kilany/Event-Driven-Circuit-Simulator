@@ -1,12 +1,6 @@
 #include "ParseVerilog.h"
 
-std::string removeCharacters (const std::string& input , const std::string& charsToRemove) {
-    std::string result = input;
-    result.erase (std::remove_if (result.begin () , result.end () ,
-        [&](char c) { return charsToRemove.find (c) != std::string::npos; }) ,
-        result.end ());
-    return result;
-}
+
 
 Circuit ParseVerilog::parse (const std::string& filename) {
     const std::string charsToRemove = "(),;# ";

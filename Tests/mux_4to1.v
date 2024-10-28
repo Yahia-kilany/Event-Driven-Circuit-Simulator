@@ -22,6 +22,5 @@ and #(3) u4(and1, i1, not_s1, s0);
 and #(3) u5(and2, i2, s1, not_s0);      
 and #(3) u6(and3, i3, s1, s0);         
 
-// OR gate with delay
-or #4 u7(out, and0, and1, and2, and3);
+or #(4) u7(out, and0, and1, and2, and3);
 endmodule
