@@ -1,10 +1,15 @@
-module majority_logic(output out, input a, b, c);
-    wire ab, bc, ca;
+module majority_logic(a, b, c, out);
+input a;
+input b;
+input c;
+output out;
 
-    and u1(ab, a, b);   
-    and u2(bc, b, c);   
-    and u3(ca, c, a);   
-    or u4(out, ab, bc, ca); 
+wire ab;
+wire bc;
+wire ca;
 
-    //This module outputs a 1 iff at least 2 of the inputs are 1s
+and #(3) u1(ab, a, b);   
+and #(3) u2(bc, b, c);   
+and #(3) u3(ca, c, a);   
+or #(4) u4(out, ab, bc, ca); 
 endmodule

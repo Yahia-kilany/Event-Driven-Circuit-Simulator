@@ -1,20 +1,23 @@
-module TwoBitAdder(
-    input a1, a0, //first 2-bit binary number
-    input b1, b0, //second 2-bit binary number
-    output sum1, sum0, // 2-bit sum output
-    output carry_out // Carry out signal
-);
-    wire carry0, carry1, sum_bit0, sum_bit1, sum_carry;
+module TwoBitAdder(a1, a0, b1, b0, sum1, sum0, carry_out);
+input a1;
+input a0;
+input b1;
+input b0;
+output sum1, sum0;
+output carry_out;
 
-    // First bit addition (LSB)
-    xor (sum0, a0, b0);       // Calculate the sum of the LSBs
-    and (carry0, a0, b0);     // Generate carry from the LSB addition
+wire carry0;
+wire carry1;
+wire sum_bit1;
+wire sum_carry;
 
-    // Second bit addition (MSB)
-    xor (sum_bit1, a1, b1);   // Calculate the sum of the MSBs without the carry-in
-    and (carry1, a1, b1);     // Calculate carry from the MSBs without carry-in
-    xor (sum1, sum_bit1, carry0); // Calculate the sum of the MSBs including the carry-in from the LSB
-    and (sum_carry, sum_bit1, carry0); // Calculate carry from MSBs considering the carry-in
-    or  (carry_out, carry1, sum_carry); // Calculate the final carry-out signal
+xor #(2) xor1(sum0, a0, b0);     
+and #(3) and1(carry0, a0, b0);   
+
+xor #(2) xor2(sum_bit1, a1, b1); 
+and #(3) and2(carry1, a1, b1);   
+xor #(2) xor3(sum1, sum_bit1, carry0); 
+and #(3) and3(sum_carry, sum_bit1, carry0); 
+or  #(4) or1(carry_out, carry1, sum_carry); 
 
 endmodule

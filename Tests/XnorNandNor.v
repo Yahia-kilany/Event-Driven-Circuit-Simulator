@@ -1,9 +1,18 @@
-module XnorNandNor (input A, B, C, output D); 
-    wire w0, w1, w2, w3, w4;
+module XnorNandNor(A, B, C, D);
+input A;
+input B;
+input C;
+output D;
 
-    xnor(w0, A, B);      // w0 = A XNOR B
-    buf(w1, w0);         // w1 = w0 to align the time between w1 and w3
-    nand(w2, C, w1);     // w2 = C NAND w1
-    not(w3, w2);         // w3 = NOT w2
-    nor(D, w1, w3);      // D = w1 NOR w3
+wire w0;
+wire w1;
+wire w2;
+wire w3;
+
+xnor #(3) u1(w0, A, B);     
+buf  #(1) u2(w1, w0);        
+nand #(2) u3(w2, C, w1);     
+not  #(1) u4(w3, w2);        
+nor  #(3) u5(D, w1, w3);     
+
 endmodule

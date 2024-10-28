@@ -1,11 +1,15 @@
-module parity_checker(output parity, input a, b, c, d);
-    wire xor1, xor2, xor3;
+module parity_checker(a, b, c, d, parity);
+input a;
+input b;
+input c;
+input d;
+output parity;
 
-    
-    xor u1( xor1, a, b);    
-    xor u2( xor2, xor1, c); 
-    xor u3( parity, xor2, d); 
+wire xor1;
+wire xor2;
 
-    //This Func chechs if the number of 1s in a binary seq. is even or odd. Output is 1 if even, 0 if odd.
-    
+xor #(2) u1(xor1, a, b);    
+xor #(2) u2(xor2, xor1, c); 
+xor #(2) u3(parity, xor2, d); 
+
 endmodule
