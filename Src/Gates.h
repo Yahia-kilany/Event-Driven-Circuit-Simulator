@@ -12,12 +12,12 @@ protected:
     Wire* output;              // Output wire
     int delay;            // Delay in ns
     std::string type;          // Type of gate
-    int getGateType();
+    int getGateType ();
 
 public:
-    Gate(std::vector<Wire*> ins, Wire* out,std::string typ, int d=0) : inputs(ins), output(out),type(typ),delay(d) {}
-    Event evaluate(Event e);
+    Gate (std::vector<Wire*> ins , Wire* out , std::string typ , int d = 0) : inputs (ins) , output (out) , type (typ) , delay (d) {}
+    Event evaluate (Event e);
 
-    };
+};
 #include "Gates.cpp"
 #endif //GATES_H

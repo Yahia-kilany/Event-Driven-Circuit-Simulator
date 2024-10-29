@@ -1,14 +1,14 @@
 #include "Gates.h"
 #include "Event.h"
-
-int Gate::getGateType() {
-    if (type == "AND") return 0;
-    if (type == "OR") return 1;
-    if (type == "NOT") return 2;
-    if (type == "NAND") return 3;
-    if (type == "NOR") return 4;
-    if (type == "XOR") return 5;
-    if (type == "XNOR") return 6;
+#include  <iostream>
+int Gate::getGateType () {
+    if (type == "and") return 0;
+    if (type == "or") return 1;
+    if (type == "not") return 2;
+    if (type == "nand") return 3;
+    if (type == "nor") return 4;
+    if (type == "xor") return 5;
+    if (type == "xnor") return 6;
     return -1; // Invalid type
 }//TODO: turn into an enum
 Event Gate::evaluate (Event e) {
@@ -50,6 +50,7 @@ Event Gate::evaluate (Event e) {
         result = inputs[0]->value; // Start with the first value
         for (size_t i = 1; i < inputs.size (); ++i) {
             result = result ^ inputs[i]->value; // XOR with each subsequent input
+            std::cout<<result<<std::endl;
         }
         break;
     case 6: // XNOR
@@ -62,6 +63,6 @@ Event Gate::evaluate (Event e) {
     default:
         break;
     }
-    Event* output = new Event(e.getTime()+delay, this->output->name, result);
+    Event* output = new Event (e.getTime () + delay , this->output->name , result);
     return *output;// Return the output value
 }
