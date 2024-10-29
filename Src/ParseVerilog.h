@@ -1,4 +1,5 @@
 #ifndef PARSEVERILOG_H
+
 #define PARSEVERILOG_H
 #include <iostream>
 #include <sstream>
@@ -7,7 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <algorithm>
-#include "circuit.h"
+#include "Circuit.h"
 #include "Gates.h"
 using namespace std;
 
