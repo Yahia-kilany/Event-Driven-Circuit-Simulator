@@ -3,69 +3,47 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <map>
-
-struct Event {
-    int time;
-    std::map<std::string, int> values;
-};
-
-std::vector<Event> parseStimFile(const std::string& filename) {
+#include <algorithm>
+#include "Event.h"
+std::string removeCharacters (const std::string& input , const std::string& charsToRemove) {
+    std::string result = input;
+    result.erase (std::remove_if (result.begin () , result.end () ,
+        [&](char c) { return charsToRemove.find (c) != std::string::npos; }) ,
+        result.end ());
+    return result;
+}
+std::vector<Event> parseStimFile (const std::string& filename) {
+    std::string charstoRemove = "# ";
     std::vector<Event> events;
-    std::ifstream file(filename);
+    std::ifstream file (filename);
 
-    if (!file.is_open()) {
+    if (!file.is_open ()) {
         std::cerr << "Error: Could not open the stimulus file: " << filename << std::endl;
         return events;
     }
 
     std::string line;
-    int current_time = 0;
-    std::map<std::string, int> current_values;
 
-    while (std::getline(file, line)) {
-        if (line[0] == '#') {
-            if (current_time != 0) {
-                events.push_back({current_time, current_values});
-            }
-            current_time = std::stoi(line.substr(1));
-            continue;
-        }
-
-        std::istringstream iss(line);
-        std::string wire_name;
-        char equals;
-        int value;
-
-        if (iss >> wire_name >> equals >> value && equals == '=') {
-            current_values[wire_name] = value;
-        }
+    while (std::getline (file , line)) {
+        std::istringstream iss (line);
+        std::string token;
+        iss >> token;
+        token = removeCharacters(token , charstoRemove);
+        int time = std::stoi (token);
+        getline (iss , token , '=');
+        token = removeCharacters (token , charstoRemove);
+        std::string wire_name = token;
+        getline (iss , token , ';');
+        token = removeCharacters (token , charstoRemove);
+        int value = std::stoi (token);
+        Event event (time , wire_name , value);
+        events.push_back (event);
     }
-
-    if (current_time != 0) {
-        events.push_back({current_time, current_values});
-    }
-
-    file.close();
     return events;
 }
-
-void printEvents(const std::vector<Event>& events) {
+void printEvents (const std::vector<Event>& events) {
     for (const auto& event : events) {
-        std::cout << "At time " << event.time << ": ";
-        for (const auto& value : event.values) {
-            std::cout << value.first << " = " << value.second << ", ";
-        }
-        std::cout << std::endl;
+        std::cout<<event<<std::endl;
+
     }
-}
-
-int main() {
-    std::string stim_file = "C:/Users/maly8/Desktop/Courses/Digital Design/parser_2.0/parity_checker_rewritten.stim";
-
-    std::vector<Event> events = parseStimFile(stim_file);
-
-    printEvents(events);
-
-    return 0;
 }
