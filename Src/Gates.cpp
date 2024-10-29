@@ -1,6 +1,5 @@
 #include "Gates.h"
 #include "Event.h"
-#include  <iostream>
 int Gate::getGateType () {
     if (type == "and") return 0;
     if (type == "or") return 1;
@@ -50,7 +49,6 @@ Event Gate::evaluate (Event e) {
         result = inputs[0]->value; // Start with the first value
         for (size_t i = 1; i < inputs.size (); ++i) {
             result = result ^ inputs[i]->value; // XOR with each subsequent input
-            std::cout<<result<<std::endl;
         }
         break;
     case 6: // XNOR

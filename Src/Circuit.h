@@ -14,7 +14,7 @@
 class Circuit {
 private:
     std::map<std::string , Wire*> wires;
-    std::priority_queue<Event , std::vector<Event> , CompareEvent> eventQueue;
+    std::priority_queue<Event , std::vector<Event> , Event::CompareEvent> eventQueue;
 
     void addEvent (Event e) {
         eventQueue.push (e);
@@ -50,7 +50,7 @@ public:
         }
         while (!eventQueue.empty ()) {
             Event e = eventQueue.top (); // Access the highest-priority event
-            myfile<< e;
+            myfile << e;
             wires[e.getName ()]->value = e.getValue (); // Update the wire value
             for (Gate* g : wires[e.getName ()]-> endGates) {
                 gateQueue.push (g);

@@ -10,7 +10,7 @@ class Gate {
 protected:
     std::vector<Wire*> inputs; // A vector of input wires
     Wire* output;              // Output wire
-    int delay;            // Delay in ns
+    int delay;            // Delay in ps
     std::string type;          // Type of gate
     int getGateType ();
 
