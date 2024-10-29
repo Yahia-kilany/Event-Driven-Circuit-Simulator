@@ -43,7 +43,7 @@ public:
         
         std::queue<Gate*> gateQueue;
         std::ofstream myfile;
-        myfile.open("output.txt");
+        myfile.open("output.sim");
         if (!myfile.is_open()) {
             std::cerr << "Error: Could not open the output file" << std::endl;
             return;
