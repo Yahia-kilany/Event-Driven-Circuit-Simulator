@@ -25,5 +25,5 @@ public:
     // Evaluates the gate and generates an output event
     Event evaluate(Event e);
 };
-#include "Gates.cpp"
+#include "../Src/Gates.cpp"
 #endif // GATES_H

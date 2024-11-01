@@ -2,10 +2,14 @@
 #ifndef STIMULUSPARSER_H
 #define STIMULUSPARSER_H
 
-#include <vector>
+#include <fstream>
+#include <sstream>
 #include <string>
+#include <vector>
+#include <algorithm>
 #include "Event.h"
+#include "ParseVerilog.h"
 
 std::vector<Event> parseStimFile(const std::string& filename);
-#include "StimulusParser.cpp"
+#include "../Src/StimulusParser.cpp"
 #endif // STIMULUSPARSER_H

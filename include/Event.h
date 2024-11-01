@@ -35,5 +35,4 @@ public:
     int getTime() const { return time; }                    // Returns the event's time
     const std::string& getName() const { return name; }     // Returns a constant reference to the event's name
 };
-
 #endif // EVENT_H

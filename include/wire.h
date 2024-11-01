@@ -19,5 +19,4 @@ struct Wire {
         endGates.push_back(g);
     }
 };
-
 #endif // WIRE_H
