@@ -28,8 +28,11 @@ std::string removeCharacters (const std::string& input , const std::string& char
     return result;
 }
 
-
-
+/**
+ * Parses a Verilog file to generate a Circuit object.
+ * @param filename The name of the Verilog file to parse.
+ * @return A Circuit object representing the parsed Verilog file.
+ */
 Circuit parseVerilog (const std::string& filename);
 
 // Include the implementation file

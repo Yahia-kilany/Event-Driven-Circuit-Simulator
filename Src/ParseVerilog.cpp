@@ -27,12 +27,12 @@ Circuit parseVerilog(const std::string& filename) {
             cout << "module name:" << moduleName << endl;
             circuit.setModuleName(moduleName); // Set the module name in the circuit
             // Parse each port of the module
-            while (iss >> token) {
+            while (getline(iss, token, ',')) {
                 token = removeCharacters(token, charsToRemove); // Remove unwanted characters
                 cout << "port:" << token << endl;
                 Wire* w = circuit.addWire(token); // Add wire to the circuit
                 wires[token] = w; // Store wire in the map
-            }
+            };
         }
 
         // Parse input, output, or wire declarations
@@ -88,7 +88,7 @@ Circuit parseVerilog(const std::string& filename) {
 
                 // Parse gate ports
                 std::vector<Wire*> ports;
-                while (iss >> token) {
+                while (getline(iss, token, ',')) {
                     token = removeCharacters(token, charsToRemove); // Clean up token
                     if (!token.empty() && wires.find(token) != wires.end()) {
                         ports.push_back(wires[token]);
