@@ -1,115 +1,117 @@
 #include "ParseVerilog.h"
 
-Circuit ParseVerilog::parse (const std::string& filename) {
-    const std::string charsToRemove = "(),;# ";
-    Circuit circuit;
-    std::ifstream file (filename);
-    if (!file.is_open ()) {
+Circuit ParseVerilog::parse(const std::string& filename) {
+    const std::string charsToRemove = "(),;# "; // Characters to strip from tokens
+    Circuit circuit; // Circuit object to store parsed wires and gates
+    std::ifstream file(filename);
+    if (!file.is_open()) {
         std::cerr << "Error: Could not open file " << filename << std::endl;
         return circuit;
     }
 
-    std::unordered_map<std::string , Wire*> wires;
+    std::unordered_map<std::string, Wire*> wires; // Stores all wires by name
     std::string line;
-    bool moduleFound = false;
-    std::string moduleName;
+    bool moduleFound = false; // Flag to track if "module" keyword has been found
+    std::string moduleName; // Stores the module name
 
-    while (std::getline (file , line)) {
-        std::istringstream iss (line);
+    // Process each line in the Verilog file
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
         std::string token;
 
-        if (!moduleFound && line.find ("module") != std::string::npos) {
+        // Parse module name and ports
+        if (!moduleFound && line.find("module") != std::string::npos) {
             moduleFound = true;
             iss >> token; // Ignore "module"
-            getline (iss , moduleName , '(');
+            getline(iss, moduleName, '('); // Extract the module name
             cout << "module name:" << moduleName << endl;
+
+            // Parse each port of the module
             while (iss >> token) {
-                token = removeCharacters (token , charsToRemove);
+                token = removeCharacters(token, charsToRemove); // Remove unwanted characters
                 cout << "port:" << token << endl;
-                Wire* w = circuit.addWire (token);
-                wires[token] = w;
+                Wire* w = circuit.addWire(token); // Add wire to the circuit
+                wires[token] = w; // Store wire in the map
             }
         }
-        if (line.find ("input") != std::string::npos || line.find ("output") != std::string::npos || line.find ("wire") != std::string::npos) {
-            std::string name , wireType;
-            iss >> wireType;
-            wireType = removeCharacters (wireType , charsToRemove);
-            iss >> name;
-            name = removeCharacters (name , charsToRemove);
 
-            if ((wireType == "input" || wireType == "output") && !(wires.find (name) != wires.end ())) {
+        // Parse input, output, or wire declarations
+        if (line.find("input") != std::string::npos || line.find("output") != std::string::npos || line.find("wire") != std::string::npos) {
+            std::string name, wireType;
+            iss >> wireType; // Get the wire type (input, output, or wire)
+            wireType = removeCharacters(wireType, charsToRemove); // Clean up wire type
+            iss >> name; // Get the wire name
+            name = removeCharacters(name, charsToRemove); // Clean up wire name
+
+            // Check if wire is already declared in the module header
+            if ((wireType == "input" || wireType == "output") && !(wires.find(name) != wires.end())) {
                 std::cerr << "Error: input/output wire " << name << " not declared in header." << std::endl;
-            }
-            else if (wireType == "wire") {
-                Wire* w = circuit.addWire (name);
+            } else if (wireType == "wire") {
+                Wire* w = circuit.addWire(name); // Add new wire
                 w->type = wireType;
                 wires[name] = w;
                 std::cout << wireType << " : " << name << std::endl;
-
-            }
-            else {
-                wires[name]->type = wireType;
+            } else {
+                wires[name]->type = wireType; // Assign type to existing wire
                 std::cout << wireType << " : " << name << std::endl;
             }
-        }
-        else {
-            std::string gate_type , gate_name , gate_delay , temp;
+        } else { 
+            // Parse gate declarations
+            std::string gate_type, gate_name, gate_delay, temp;
             int delay = 0;
 
-            if (line.find ("and") != std::string::npos || line.find ("or") != std::string::npos ||
-                line.find ("nand") != std::string::npos || line.find ("nor") != std::string::npos ||
-                line.find ("xor") != std::string::npos || line.find ("xnor") != std::string::npos ||
-                line.find ("buf") != std::string::npos || line.find ("not") != std::string::npos) {
+            // Check if the line contains a gate keyword
+            if (line.find("and") != std::string::npos || line.find("or") != std::string::npos ||
+                line.find("nand") != std::string::npos || line.find("nor") != std::string::npos ||
+                line.find("xor") != std::string::npos || line.find("xnor") != std::string::npos ||
+                line.find("buf") != std::string::npos || line.find("not") != std::string::npos) {
 
-                iss >> gate_type;
-                getline (iss , temp , '(');
+                iss >> gate_type; // Get gate type
+                getline(iss, temp, '('); // Extract gate delay and name if present
 
-                if (temp.find ('#') != std::string::npos) {  // Check for delay
+                // Check for a delay specified with '#'
+                if (temp.find('#') != std::string::npos) {
                     iss >> gate_delay;
-                    gate_delay = removeCharacters (gate_delay , charsToRemove);
+                    gate_delay = removeCharacters(gate_delay, charsToRemove);
                     try {
-                        delay = std::stoi (gate_delay);
-                    }
-                    catch (const std::invalid_argument&) {
+                        delay = std::stoi(gate_delay); // Parse delay value
+                    } catch (const std::invalid_argument&) {
                         std::cerr << "Error: Invalid delay format in gate " << gate_type << std::endl;
                         continue;
                     }
-                    getline (iss , gate_name , '(');
-                }
-                else {
+                    getline(iss, gate_name, '('); // Get gate name
+                } else {
                     gate_name = temp;
                 }
 
                 std::cout << gate_name << ' ' << gate_delay << " " << gate_type << std::endl;
 
-                // Parsing gate ports
+                // Parse gate ports
                 std::vector<Wire*> ports;
                 while (iss >> token) {
-
-                    token = removeCharacters (token , charsToRemove);
-                    if (!token.empty () && wires.find (token) != wires.end ()) {
-                        ports.push_back (wires[token]);
+                    token = removeCharacters(token, charsToRemove); // Clean up token
+                    if (!token.empty() && wires.find(token) != wires.end()) {
+                        ports.push_back(wires[token]);
                         std::cout << "Gate Port: " << token << std::endl;
-                    }
-                    else {
+                    } else {
                         std::cerr << "Error: Wire " << token << " not found." << std::endl;
                     }
                 }
 
-                // Create and add gate if ports are valid
-                if (!ports.empty ()) {
+                // Create gate and connect ports if valid
+                if (!ports.empty()) {
                     Wire* output = ports[0];
-                    std::vector<Wire*> inputs (ports.begin () + 1 , ports.end ());
-                    Gate* gate = new Gate (inputs , output , gate_type , delay);
+                    std::vector<Wire*> inputs(ports.begin() + 1, ports.end());
+                    Gate* gate = new Gate(inputs, output, gate_type, delay);
 
-                    // Link the inputs to the gate
+                    // Add gate to each input wire's endGates list
                     for (auto& input : inputs) {
-                        input->addGate (gate);
+                        input->addGate(gate);
                     }
-                    circuit.addGate (gate);
+                    circuit.addGate(gate); // Add gate to circuit
                 }
             }
         }
     }
-    return circuit;
+    return circuit; // Return the populated circuit
 }

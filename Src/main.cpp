@@ -3,7 +3,7 @@
 #include "Circuit.h"
 #include "ParseVerilog.h"
 #include "Event.h"
-#include "StimParser.h"
+#include "StimulusParser.h"
 
 std::ostream& operator<<(std::ostream& os , const Event& e) {
     os << "#" << e.time << " " << e.name << " " << e.value<<endl;
