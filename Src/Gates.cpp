@@ -1,5 +1,5 @@
-#include "Gates.h"
-#include "Event.h"
+#include "../include/Gates.h"
+#include "../include/Wire.h"
 
 // Returns an integer representing the gate type based on the type string.
 // TODO: This function should ideally be replaced with an enum.

@@ -1,4 +1,4 @@
-#include "Circuit.h"
+#include "../include/Circuit.h"
 
 // Adds an event to the event queue
 void Circuit::addEvent(Event e) {
@@ -28,9 +28,9 @@ void Circuit::addGate(Gate* gate) {
 void Circuit::simulate() {
     std::queue<Gate*> gateQueue; // Queue to manage gates affected by current events
     std::ofstream myfile;
-    
+    std::string outputFileName = moduleName + ".sim";
     // Opens an output file to store simulation results
-    myfile.open("output.sim");
+    myfile.open(outputFileName);
     if (!myfile.is_open()) {
         std::cerr << "Error: Could not open the output file" << std::endl;
         return;
@@ -61,6 +61,9 @@ void Circuit::simulate() {
     }
 }
 
+void Circuit::setModuleName(const std::string& name) {
+    moduleName = name;
+}
 // Prints the current values of all wires in the circuit
 void Circuit::printValues() {
     for (const auto& pair : wires) {

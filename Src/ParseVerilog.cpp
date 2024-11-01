@@ -1,6 +1,6 @@
-#include "ParseVerilog.h"
+#include "../include/ParseVerilog.h"
 
-Circuit ParseVerilog::parse(const std::string& filename) {
+Circuit parseVerilog(const std::string& filename) {
     const std::string charsToRemove = "(),;# "; // Characters to strip from tokens
     Circuit circuit; // Circuit object to store parsed wires and gates
     std::ifstream file(filename);
@@ -25,7 +25,7 @@ Circuit ParseVerilog::parse(const std::string& filename) {
             iss >> token; // Ignore "module"
             getline(iss, moduleName, '('); // Extract the module name
             cout << "module name:" << moduleName << endl;
-
+            circuit.setModuleName(moduleName); // Set the module name in the circuit
             // Parse each port of the module
             while (iss >> token) {
                 token = removeCharacters(token, charsToRemove); // Remove unwanted characters

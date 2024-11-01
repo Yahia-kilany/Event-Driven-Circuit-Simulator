@@ -1,20 +1,5 @@
 // StimulusParser.cpp
-#include "StimulusParser.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include "ParseVerilog.h"
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include "Event.h"
-#include "ParseVerilog.h"
-
+#include "../include/StimulusParser.h"
 /**
  * Parses a stimulus file to generate a list of events for circuit simulation.
  * @param filename The name of the stimulus file to parse.
