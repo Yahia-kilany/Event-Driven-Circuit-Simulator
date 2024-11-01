@@ -35,4 +35,8 @@ public:
     int getTime() const { return time; }                    // Returns the event's time
     const std::string& getName() const { return name; }     // Returns a constant reference to the event's name
 };
+std::ostream& operator<<(std::ostream& os , const Event& e) {
+    os << e.time << " " << e.name << " " << e.value<<std::endl;
+    return os;
+}
 #endif // EVENT_H

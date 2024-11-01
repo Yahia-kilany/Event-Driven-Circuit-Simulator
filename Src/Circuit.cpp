@@ -35,11 +35,13 @@ void Circuit::simulate() {
         std::cerr << "Error: Could not open the output file" << std::endl;
         return;
     }
-    
     // Process each event until the event queue is empty
     while (!eventQueue.empty()) {
         Event e = eventQueue.top(); // Get the next event
-        myfile << e; // Log the event to the output file
+        eventQueue.pop();
+        if(!(e==eventQueue.top())||eventQueue.empty()){
+        myfile << e;
+        }
         
         // Update the wire associated with this event
         wires[e.getName()]->value = e.getValue();
@@ -57,7 +59,6 @@ void Circuit::simulate() {
         }
 
         // Remove the processed event from the event queue
-        eventQueue.pop();
     }
 }
 
