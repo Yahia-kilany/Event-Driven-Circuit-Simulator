@@ -65,11 +65,8 @@ def main():
     Main function to run the simulation file reader and waveform plotter.
     Prompts the user for a file path or uses a default path if no input is given.
     """
-    # Prompt user for file path or use default if blank
+    # Prompt user for file path 
     file_path = input("Enter the path of the .sim file: ")
-    if not file_path.strip():               # Use default path if input is blank
-        file_path = r"./Src/ parity_checker.sim"
-    
     # Read simulation data from the file and plot waveforms
     timestamps, variables = read_simulation_file(file_path)
     plot_waveforms(timestamps, variables)
