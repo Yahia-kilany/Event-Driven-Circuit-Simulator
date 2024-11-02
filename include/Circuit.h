@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include <queue>
-#include <map>
+#include <unordered_map>
 #include <filesystem>
 #include <fstream>
 #include "Event.h"
@@ -14,7 +14,7 @@
 // Circuit class manages wires, gates, and events in the circuit simulation
 class Circuit {
 private:
-    std::map<std::string, Wire*> wires; // Maps wire names to Wire pointers for easy access by name
+    std::unordered_map<std::string, Wire*> wires; // Maps wire names to Wire pointers for easy access by name
     std::priority_queue<Event, std::vector<Event>, Event::CompareEvent> eventQueue; // Priority queue for managing events
     std::vector<Gate*> gates; // Vector holding pointers to all gates in the circuit
     std::string moduleName; // Name of the module being simulated

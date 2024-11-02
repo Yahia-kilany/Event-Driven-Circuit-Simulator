@@ -62,7 +62,7 @@ int main () {
         Circuit circuit = parseVerilog (verilogPath);
 
         // Parse stimulus file and fill event queue
-        std::vector<Event> events = parseStimFile (stimulusPath);
+        std::vector<Event> events = parseStim (stimulusPath);
         circuit.fillEventQueue (events);
 
         // Simulate the circuit

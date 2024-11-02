@@ -5,7 +5,7 @@
  * @param filename The name of the stimulus file to parse.
  * @return A vector of Event objects created based on the file contents.
  */
-std::vector<Event> parseStimFile(const std::string& filename) {
+std::vector<Event> parseStim(const std::string& filename) {
     std::string charstoRemove = "# ";  // Characters to remove from the parsed tokens
     std::vector<Event> events;  // Vector to store generated events
     std::ifstream file(filename);  // Open the stimulus file

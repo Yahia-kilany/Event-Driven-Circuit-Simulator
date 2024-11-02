@@ -10,6 +10,6 @@
 #include "Event.h"
 #include "ParseVerilog.h"
 
-std::vector<Event> parseStimFile(const std::string& filename);
+std::vector<Event> parseStim(const std::string& filename);
 #include "../Src/StimulusParser.cpp"
 #endif // STIMULUSPARSER_H
