@@ -6,6 +6,7 @@
 #include <string>
 #include <queue>
 #include <map>
+#include <filesystem>
 #include <fstream>
 #include "Event.h"
 #include "Gates.h"

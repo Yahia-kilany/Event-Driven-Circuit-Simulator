@@ -1,4 +1,5 @@
 #include "../include/Circuit.h"
+namespace fs = std::filesystem;
 
 // Adds an event to the event queue
 void Circuit::addEvent (Event e) {
@@ -24,43 +25,50 @@ void Circuit::addGate (Gate* gate) {
     gates.push_back (gate);
 }
 
-// Simulates the circuit by processing events from the event queue
-void Circuit::simulate () {
-    std::queue<Gate*> gateQueue; // Queue to manage gates affected by current events
-    std::ofstream myfile;
+void Circuit::simulate() {
+    std::string outputDir = "../output/";
+
+    // Create the output directory if it does not exist
+    if (!fs::exists(outputDir)) {
+        fs::create_directory(outputDir);
+        std::cout << "Created output directory: " << outputDir << std::endl;
+    }
+
     std::string outputFileName = moduleName + ".sim";
-    // Opens an output file to store simulation results
-    myfile.open (outputFileName);
-    if (!myfile.is_open ()) {
-        std::cerr << "Error: Could not open the output file" << std::endl;
+    std::string outputPath = outputDir + outputFileName;
+    std::ofstream outFile(outputPath);
+    
+    if (!outFile.is_open()) {
+        std::cerr << "Error: Could not open the output file " << outputPath << std::endl;
         return;
     }
-    // Process each event until the event queue is empty
-    while (!eventQueue.empty ()) {
-        Event e = eventQueue.top (); // Get the next event
-        eventQueue.pop ();
-        if (!(e == eventQueue.top ()) || eventQueue.empty ()) {
-            myfile << e; // Log the event to the output file
-        }
 
+    std::queue<Gate*> gateQueue; // Queue to manage gates affected by current events
+
+    // Process each event until the event queue is empty
+    while (!eventQueue.empty()) {
+        Event e = eventQueue.top(); // Get the next event
+        eventQueue.pop();
+        if(!(e==eventQueue.top())||eventQueue.empty()){
+        outFile << e; // Always log the event
+        }
         // Update the wire associated with this event
-        wires[e.getName ()]->value = e.getValue ();
+        wires[e.getName()]->value = e.getValue();
 
         // Push all gates connected to this wire into the gate queue for evaluation
-        for (Gate* g : wires[e.getName ()]->endGates) {
-            gateQueue.push (g);
+        for (Gate* g : wires[e.getName()]->endGates) {
+            gateQueue.push(g);
         }
 
         // Evaluate each gate in the gate queue and add the resulting events to the event queue
-        while (!gateQueue.empty ()) {
-            Gate* gate = gateQueue.front ();
-            eventQueue.push (gate->evaluate (e));
-            gateQueue.pop ();
+        while (!gateQueue.empty()) {
+            Gate* gate = gateQueue.front();
+            eventQueue.push(gate->evaluate(e));
+            gateQueue.pop();
         }
-
-        // Remove the processed event from the event queue
     }
 }
+
 
 void Circuit::setModuleName (const std::string& name) {
     moduleName = name;
