@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-
 # Function to read simulation output file
 def read_simulation_file(file_path):
     """
@@ -17,12 +16,12 @@ def read_simulation_file(file_path):
     # Open and read the file line by line
     with open(file_path, 'r') as file:
         for line in file:
-            parts = line.strip().split(',')  # Split each line by commas
+            tokens = line.strip().split(',')  # Split each line by commas
             
             # Parse timestamp, variable name, and value
-            timestamp = int(parts[0])
-            variable = parts[1]
-            value = int(parts[2])
+            timestamp = int(tokens[0])
+            variable = tokens[1]
+            value = int(tokens[2])
 
             # Initialize data storage for a new variable
             if variable not in variables:
@@ -53,12 +52,9 @@ def plot_waveforms(timestamps, variables):
     # Plot each variable's data in a separate subplot
     for i, (variable, data) in enumerate(variables.items()):
         plots[i].step(data['timestamps'], data['values'], label=variable, where='post')  # Step plot for waveform
-        plots[i].set_xlabel('Time')         # Label x-axis as 'Time'
-        plots[i].set_ylabel('Value')        # Label y-axis as 'Value'
         plots[i].set_title(f'{variable}')   # Set title to variable name
         plots[i].grid(True)                 # Enable grid for better visualization
         plots[i].legend()                   # Display legend for the variable
-
     plt.tight_layout()                      # Adjust layout for clear display
     plt.subplots_adjust(hspace=1)           # Add space between subplots
     plt.show()                              # Show the plot
@@ -72,7 +68,7 @@ def main():
     # Prompt user for file path or use default if blank
     file_path = input("Enter the path of the .sim file: ")
     if not file_path.strip():               # Use default path if input is blank
-        file_path = r".\ parity_checker.sim"
+        file_path = r"./Src/ parity_checker.sim"
     
     # Read simulation data from the file and plot waveforms
     timestamps, variables = read_simulation_file(file_path)
